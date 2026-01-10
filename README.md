@@ -1,94 +1,187 @@
-# Project CI/CD with GitHub Actions and AWS EC2 Deployment
+<img width="1801" height="846" alt="image" src="https://github.com/user-attachments/assets/5021a9d2-7b0d-408b-8b4b-7bc0f2685911" /># 🚀 CI/CD Pipeline with GitHub Actions & AWS EC2 Deployment
 
-This repository contains a full-stack application with a frontend built using React.js and a backend developed with Node.js. Continuous Integration and Continuous Deployment (CI/CD) are implemented using GitHub Actions and GitHub managed runners. The project is deployed on AWS EC2.
+![CI/CD Architecture](./images/cicd-architecture.png)
 
-## Table of Contents
-- [Overview](#overview)
-- [CI/CD Pipeline](#cicd-pipeline)
-- [GitHub Actions Workflow](#github-actions-workflow)
-- [Artifacts](#artifacts)
-- [Deployment](#deployment)
-
-## Overview
-This project automates the CI/CD process for a full-stack application, enabling efficient development and deployment cycles. The CI/CD pipeline includes jobs for building, testing, and deploying the application, leveraging GitHub Actions and AWS EC2.
-
-**Prerequisites:**
-
-   • Nginx
-
-   • Docker
-
-## CI/CD Pipeline
-The CI/CD pipeline is structured into two jobs:
-1. **Deploy Backend and Create Artifact**: Compiles the code and dockrize the code. Create artiact file indicating status of the job.
-2. **Check Artifact and Deploy Frontend**: First check artifact file status and then run or reject 2nd job based on status.
-
-## GitHub Actions Workflow
-The GitHub Actions workflow is defined in `.github/workflows/deployment.yml`. Key steps include:
-- **Deploy Backend and Create Artifact**: Compiles the code and dockrize the code. Upload Docker Image to Dockerhub. Create artiact file indicating status of the job.
-- **Check Artifact and Deploy Frontend**: First check artifact file status and then run or reject 2nd job based on status. If success it deploy the react build to ec2 and run docker container for backend.
-
-## Artifacts
-Artifacts are used to pass information between jobs in the workflow. Specifically:
-- **Status File**: Indicates the result of the build and test job.
-
-## Deployment
-The deployment process involves:
-- **AWS EC2**: The application is deployed on an AWS EC2 instance.
-- **Conditional Execution**: Deployment only proceeds if the first job is successful, as indicated by the status artifact.
-
-## Implementation Guide
-To implement this CI/CD pipeline:
-1. **Fork the Repository**: Fork this repo to your GitHub account.
-2. **Create EC2 SSH Key Secrets**: Add the required EC2 SSH key secrets in the GitHub Action YAML file.
-3. **Modify GitHub Actions Workflow**:
-   - Update the `rsync` deployment action values as needed in the GitHub Actions YAML file.
-   - Change the EC2 IP address mentioned in the GitHub Actions YAML file.
-4. Update the `REACT_APP_API_URL` environment variable of [.env](https://github.com/Divya4242/React-Node-MongoDB-Docker-Project-CICD-GITHUB-ACTIONS-EC2/blob/main/client/.env) in the client folder.
-5. **Nginx Configuration**:
-   - Create two Nginx configuration files in `/etc/nginx/sites-available`.
-     
-   **frontend.conf**:
-     ```nginx
-     # Frontend configuration file
-     server {
-         listen 80;
-         server_name your_domain.com.OR_;
-
-         location / {
-             root /var/www/build;
-             index index.html;
-             try_files $uri $uri/ /index.html;
-         }
-     }
-     ```
-
-     **backend.conf**:
-     ```nginx
-     # Backend Configuration File
-     server {
-         listen 80;
-         server_name your_domain.com.OR_;
-
-         location / {
-             proxy_pass http://localhost:8000;
-             proxy_http_version 1.1;
-             proxy_set_header Upgrade $http_upgrade;
-             proxy_set_header Connection 'upgrade';
-             proxy_set_header Host $host;
-             proxy_cache_bypass $http_upgrade;
-         }
-     }
-     ```
-     
-
-## Screenshots
-<img width="1887" height="787" alt="Image" src="https://github.com/user-attachments/assets/ee4a645b-430f-4727-807f-ecc9f3942618" />
-
-<img width="1903" height="937" alt="Image" src="https://github.com/user-attachments/assets/efe89c2e-7a39-4b9f-8d32-11601ebf1d66" />
-
-<img width="1801" height="846" alt="Image" src="https://github.com/user-attachments/assets/374ff6e6-17ef-4356-b97d-f382ee932a8f" />
+> **End-to-end CI/CD implementation for a full-stack MERN application using GitHub Actions, Docker, Docker Hub, and AWS EC2 (Self-Hosted Runner).**
 
 ---
 
-For detailed configuration and customization, refer to the `.github/workflows/deployment.yml` file in the repository.
+## 📌 Overview
+
+This repository demonstrates a **production-grade CI/CD pipeline** for a **full-stack MERN application**.
+
+### 🧰 Tech Stack
+- **Frontend:** React.js
+- **Backend:** Node.js & Express
+- **Database:** MongoDB Atlas
+- **CI/CD:** GitHub Actions
+- **Containerization:** Docker & Docker Compose
+- **Image Registry:** Docker Hub
+- **Deployment:** AWS EC2
+- **Runner:** GitHub Actions Self-Hosted Runner
+
+Every push to the `main` branch automatically:
+1. Builds Docker images
+2. Pushes images to Docker Hub
+3. Deploys updated containers on AWS EC2
+
+---
+
+## 🏗️ CI/CD Architecture
+
+```bash
+Developer → GitHub → GitHub Actions → Docker Build → Docker Hub → AWS EC2 → Live Application
+```
+
+
+![CI/CD Flow](./images/cicd-architecture.png)
+
+---
+
+## ⚙️ CI/CD Pipeline Steps
+
+### 1️⃣ Code Push
+- Developer pushes code to the `main` branch
+
+### 2️⃣ GitHub Actions Trigger
+- Workflow is triggered automatically
+
+### 3️⃣ Build Docker Images
+- Backend image
+- Frontend image
+
+### 4️⃣ Push to Docker Hub
+Images are pushed to:
+- `juhisinha/mern-backend:latest`
+- `juhisinha/mern-frontend:latest`
+
+### 5️⃣ Deploy on AWS EC2
+- EC2 runs a **self-hosted GitHub Actions runner**
+- Latest images are pulled
+- Containers are restarted using Docker Compose
+
+---
+
+## 🧪 GitHub Actions Workflow
+
+Workflow file:
+```bash
+.github/workflows/deploy.yml
+```
+
+
+### 🔑 Key Highlights
+- Uses **self-hosted runner on EC2**
+- No EC2 IP or SSH keys stored in GitHub
+- Secure secrets via GitHub Secrets
+- Fully automated deployment
+
+---
+
+## 📦 Docker Images
+
+| Service  | Docker Image |
+|--------|--------------|
+| Backend | `juhisinha/mern-backend:latest` |
+| Frontend | `juhisinha/mern-frontend:latest` |
+
+Images are built and pushed automatically during CI.
+
+---
+
+## ☁️ Deployment Details
+
+- **Platform:** AWS EC2 (Ubuntu)
+- **Frontend:** Nginx (Docker) → Port `80`
+- **Backend:** Node.js → Port `5000`
+
+### 🌍 Access Application
+```bash
+http://<EC2_PUBLIC_IP>
+```
+
+
+---
+
+## 🎨 Frontend UI
+
+The frontend is a **DevOps-themed animated UI** featuring:
+- Dark background
+- Glowing / neon text
+- CI/CD explanation
+- DevOps tools showcase
+- Auto-deployment on every push
+
+---
+
+## 🔐 Prerequisites
+
+Ensure the following are installed on EC2:
+- Docker
+- Docker Compose
+- GitHub Actions Self-Hosted Runner
+
+---
+
+## 🛠️ Implementation Guide
+
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/juhisinha422/React-Node-MongoDB-Docker-Project-CICD-GITHUB-ACTIONS-EC2.git
+```
+
+## 2️⃣ Configure GitHub Secrets
+
+Add the following secrets:
+```bash
+MONGO_URI
+
+DOCKERHUB_USERNAME
+
+DOCKERHUB_TOKEN
+```
+
+### 3️⃣ Setup Self-Hosted Runner
+
+Register EC2 as a GitHub Actions runner
+
+Run runner as a systemd service
+
+### 4️⃣ Environment Variables
+
+```bash
+Frontend .env:
+
+REACT_APP_API_URL=http://<EC2_PUBLIC_IP>:5000
+```
+### 📸 Screenshots
+
+## GitHub Actions Pipeline
+<img width="1887" height="787" alt="Image" src="https://github.com/user-attachments/assets/da8898ee-d430-4104-9682-416ec54b0873" />
+
+## Docker Hub Images
+<img width="1903" height="937" alt="Image" src="https://github.com/user-attachments/assets/37401fb4-6771-41d6-8345-6bb6aba69f6e" />
+
+## Live Deployment on EC2
+<img width="1801" height="846" alt="Image" src="https://github.com/user-attachments/assets/cb8debcb-7c15-4881-b719-7de9158f7776" />
+
+### 🧠 Key Learnings
+
+```bash 
+Implemented secure CI/CD without SSH
+
+Used Docker Hub as image registry
+
+Deployed via self-hosted GitHub runner
+
+Achieved fully automated cloud deployment
+```
+
+### 👩‍💻 Author
+
+Juhi Sinha
+DevOps Engineer 🚀
+
+Passionate about CI/CD automation, Docker, cloud infrastructure, and scalable deployments.
+
+
