@@ -30,7 +30,7 @@ Developer → GitHub → GitHub Actions → Docker Build → Docker Hub → AWS 
 ```
 
 
-![CI/CD Flow](./images/cicd-architecture.png)
+<img width="642" height="401" alt="Image" src="https://github.com/user-attachments/assets/fad3d816-02aa-4a5b-95c6-6c7be218321b" />
 
 ---
 
