@@ -34,6 +34,7 @@ Developer → GitHub → GitHub Actions → Docker Build → Docker Hub → AWS 
 
 ## 🏗️ Architecture Overview
 
+```bash
 Developer Push → GitHub
 
       ↓
@@ -63,7 +64,7 @@ Restart Container via Docker Compose
       ↓
 Traffic served via Nginx
 
-
+```
 ---
 
 ## ⚙️ CI/CD Pipeline Steps
