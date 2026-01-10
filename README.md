@@ -30,7 +30,7 @@ Every push to the `main` branch automatically:
 Developer → GitHub → GitHub Actions → Docker Build → Docker Hub → AWS EC2 → Live Application
 ```
 
-<img width="642" height="401" alt="Image" src="https://github.com/user-attachments/assets/fad3d816-02aa-4a5b-95c6-6c7be218321b" />
+<img width="1536" height="1024" alt="Image" src="https://github.com/user-attachments/assets/81d1e620-1a55-4b56-9680-e5c72a317be9" />
 
 ## 🏗️ Architecture Overview
 
