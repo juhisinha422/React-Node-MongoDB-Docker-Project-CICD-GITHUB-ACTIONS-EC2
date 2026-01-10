@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   backend:
-    build: ./server
+    image: juhisinha/mern-backend:latest
     container_name: backend
     ports:
       - "5000:5000"
@@ -10,7 +10,7 @@ services:
       - .env
 
   frontend:
-    build: ./client
+    image: juhisinha/mern-frontend:latest
     container_name: frontend
     ports:
       - "80:80"

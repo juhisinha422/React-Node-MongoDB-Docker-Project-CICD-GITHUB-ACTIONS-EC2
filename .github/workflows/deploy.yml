@@ -1,4 +1,4 @@
-name: Deploy MERN App on EC2 (Self Hosted Runner)
+name: Build, Push & Deploy MERN App
 
 on:
   push:
@@ -6,31 +6,41 @@ on:
       - main
 
 jobs:
-  deploy:
+  build-push-deploy:
     runs-on: self-hosted
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Move to project directory
+      - name: Create env file
         run: |
-          cd ${{ github.workspace }}
-          ls -la
-
-      - name: Create environment file
-        run: |
-          cd ${{ github.workspace }}
           echo "MONGO_URI=${{ secrets.MONGO_URI }}" > .env
-          cat .env
 
-      - name: Stop existing containers
+      - name: Login to Docker Hub
         run: |
-          cd ${{ github.workspace }}
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login \
+            -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+      - name: Build backend image
+        run: |
+          docker build -t juhisinha/mern-backend:latest ./server
+
+      - name: Build frontend image
+        run: |
+          docker build -t juhisinha/mern-frontend:latest ./client
+
+      - name: Push backend image
+        run: |
+          docker push juhisinha/mern-backend:latest
+
+      - name: Push frontend image
+        run: |
+          docker push juhisinha/mern-frontend:latest
+
+      - name: Deploy containers on EC2
+        run: |
           docker-compose down || true
-
-      - name: Build and start containers
-        run: |
-          cd ${{ github.workspace }}
-          docker-compose up --build -d
+          docker-compose pull
+          docker-compose up -d
 
