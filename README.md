@@ -1,4 +1,4 @@
-> **End-to-end CI/CD implementation for a full-stack MERN application using GitHub Actions, Docker, Docker Hub, and AWS EC2 (Self-Hosted Runner).**
+###  **End-to-end CI/CD implementation for a full-stack MERN application using GitHub Actions, Docker, Docker Hub, and AWS EC2 (Self-Hosted Runner).**
 
 ---
 
