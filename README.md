@@ -30,8 +30,26 @@ Every push to the `main` branch automatically:
 Developer → GitHub → GitHub Actions → Docker Build → Docker Hub → AWS EC2 → Live Application
 ```
 
-
 <img width="642" height="401" alt="Image" src="https://github.com/user-attachments/assets/fad3d816-02aa-4a5b-95c6-6c7be218321b" />
+
+## 🏗️ Architecture Overview
+
+Developer Push → GitHub
+      ↓
+GitHub Actions
+      ↓
+Run Tests → Build Docker Image
+      ↓
+Push Image to Docker Hub
+      ↓
+SSH into AWS EC2
+      ↓
+Pull Latest Image
+      ↓
+Restart Container via Docker Compose
+      ↓
+Traffic served via Nginx
+
 
 ---
 
