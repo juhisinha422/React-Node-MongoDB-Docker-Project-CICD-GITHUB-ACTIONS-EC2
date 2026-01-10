@@ -3,6 +3,7 @@
 ---
 
 ## 📌 Overview
+**End-to-End CI/CD Pipeline using GitHub Actions, Docker, AWS EC2 & Nginx**
 
 This repository demonstrates a **production-grade CI/CD pipeline** for a **full-stack MERN application**.
 
