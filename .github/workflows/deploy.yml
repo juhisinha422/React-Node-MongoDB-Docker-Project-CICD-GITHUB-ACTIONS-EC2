@@ -13,15 +13,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Move to project directory
+        run: |
+          cd ${{ github.workspace }}
+          ls -la
+
       - name: Create environment file
         run: |
+          cd ${{ github.workspace }}
           echo "MONGO_URI=${{ secrets.MONGO_URI }}" > .env
+          cat .env
 
       - name: Stop existing containers
         run: |
-          docker compose down || true
+          cd ${{ github.workspace }}
+          docker-compose down || true
 
       - name: Build and start containers
         run: |
-          docker compose up --build -d
+          cd ${{ github.workspace }}
+          docker-compose up --build -d
 
