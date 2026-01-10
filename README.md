@@ -1,7 +1,3 @@
-<img width="1801" height="846" alt="image" src="https://github.com/user-attachments/assets/5021a9d2-7b0d-408b-8b4b-7bc0f2685911" /># 🚀 CI/CD Pipeline with GitHub Actions & AWS EC2 Deployment
-
-![CI/CD Architecture](./images/cicd-architecture.png)
-
 > **End-to-end CI/CD implementation for a full-stack MERN application using GitHub Actions, Docker, Docker Hub, and AWS EC2 (Self-Hosted Runner).**
 
 ---
