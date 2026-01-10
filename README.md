@@ -35,18 +35,31 @@ Developer → GitHub → GitHub Actions → Docker Build → Docker Hub → AWS 
 ## 🏗️ Architecture Overview
 
 Developer Push → GitHub
+
       ↓
+
 GitHub Actions
+      
       ↓
+
 Run Tests → Build Docker Image
+
       ↓
+
 Push Image to Docker Hub
+
       ↓
+
 SSH into AWS EC2
+
       ↓
+
 Pull Latest Image
+
       ↓
+
 Restart Container via Docker Compose
+
       ↓
 Traffic served via Nginx
 
